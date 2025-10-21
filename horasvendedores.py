@@ -107,7 +107,7 @@ with tabs[0]:
     st.markdown("> Ordenado por defecto según las horas totales. Podes cambiarlo tocando los encabezados")
 
     agg = df_f.groupby("Vendedor", as_index=False).agg(
-        Visitas=("Cliente", "count"),
+        Registros=("Cliente", "count"),
         Sum_Seconds=("Total_Seconds", "sum"),
         Mean_Seconds=("Total_Seconds", "mean")
     )
@@ -120,9 +120,9 @@ with tabs[0]:
     agg["Promedio (h)"] = agg["Promedio (h)"].map(lambda x: f"{x:.2f}".rstrip("0").rstrip("."))
 
     agg = agg.sort_values("Sum_Seconds", ascending=False)
-    show_cols = ["Vendedor", "Visitas", "Horas", "Promedio (h)"]
+    show_cols = ["Vendedor", "Registros", "Horas", "Promedio (h)"]
     display_df = agg[show_cols].copy()
-    st.dataframe(heatmap_style(display_df, ["Visitas", "Horas", "Promedio (h)"]), use_container_width=True)
+    st.dataframe(heatmap_style(display_df, ["Registros", "Horas", "Promedio (h)"]), use_container_width=True)
 
 # Datos Generales
 with tabs[1]:
@@ -152,7 +152,7 @@ with tabs[1]:
     )
     st.plotly_chart(fig_min, use_container_width=True)
 
-    # --- Cantidad de registros por día ---
+    # Cantidad de registros por día
     df_count = df_f.groupby(df_f["Fecha Checkin"].dt.date)["Cliente"].count().reset_index()
     df_count.rename(columns={"Cliente": "Registros"}, inplace=True)
     fig_reg = px.bar(
@@ -186,7 +186,7 @@ with tabs[1]:
 with tabs[2]:
     st.subheader("Resumen por Cliente")
     agg_c = df_f.groupby("Cliente", as_index=False).agg(
-        Visitas=("Vendedor", "count"),
+        Registros=("Vendedor", "count"),
         Sum_Seconds=("Total_Seconds", "sum"),
         Mean_Seconds=("Total_Seconds", "mean")
     )
@@ -195,15 +195,15 @@ with tabs[2]:
     agg_c["Horas"] = agg_c["Horas"].map(lambda x: f"{x:.2f}".rstrip("0").rstrip("."))
     agg_c["Promedio (h)"] = agg_c["Promedio (h)"].map(lambda x: f"{x:.2f}".rstrip("0").rstrip("."))
     agg_c = agg_c.sort_values("Sum_Seconds", ascending=False)
-    show_cols_c = ["Cliente", "Visitas", "Horas", "Promedio (h)"]
+    show_cols_c = ["Cliente", "Registros", "Horas", "Promedio (h)"]
     display_clients = agg_c[show_cols_c].copy()
-    st.dataframe(heatmap_style(display_clients, ["Visitas", "Horas", "Promedio (h)"]), use_container_width=True)
+    st.dataframe(heatmap_style(display_clients, ["Registros", "Horas", "Promedio (h)"]), use_container_width=True)
 
 # Valores Extremos
 with tabs[3]:
-    st.subheader("🚨 Análisis de Valores Extremos")
+    st.subheader("🚨 Valores Extremos")
     st.markdown(
-        "Este módulo identifica **registros atípicos** en el tiempo de permanencia. "
+        "Este módulo identifica registros atípicos en 'Tiempo en PDV'"
         "La **sensibilidad** define cuán estricta es la detección: "
         "si aumentás la sensibilidad, el modelo marcará más registros como posibles valores extremos."
     )
