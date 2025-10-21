@@ -226,7 +226,7 @@ with tabs[3]:
         df_anom.reset_index(),
         x="index", y="Horas", color="Estado", hover_data=["Cliente"],
         color_discrete_map={"Normal": COLOR_PRINCIPAL, "Valor extremo": COLOR_ROJO},
-        title="Tiempos por registro individual (h.mm)"
+        title="Tiempos por registro individual"
     )
     fig1.update_traces(marker=dict(size=7, opacity=0.8, line=dict(width=0.5, color="white")))
     fig1.update_layout(
@@ -247,7 +247,7 @@ with tabs[3]:
     fig2 = px.scatter(
         df_mean, x="Vendedor", y="Promedio", color="Estado",
         color_discrete_map={"Normal": COLOR_PRINCIPAL, "Valor extremo": COLOR_ROJO},
-        title="Promedio por vendedor (h.mm)"
+        title="Promedio por vendedor"
     )
     fig2.update_traces(marker=dict(size=9, opacity=0.85, line=dict(width=0.5, color="white")))
     fig2.update_layout(
